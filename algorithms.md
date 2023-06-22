@@ -1,6 +1,6 @@
 # Binary Search and Its Variants
 
-1. Contains 
+1. Contains
 2. First/Last occurrence
 3. Least geater/Greatest lesser
 
