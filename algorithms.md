@@ -165,3 +165,71 @@ public int gcd(int a, int b) {
 }
 ```
 
+# Linkedlist Reverse and Its Variants
+
+## Reverse a Linkedlist
+
+Statement: given a linkedlist `head`, reverse the linkedlist.
+
+```java
+public ListNode reverse(ListNode head) {
+    ListNode prev = null, curr = head;
+
+    while (curr != null) {
+        ListNode next = curr.next;
+        curr.next = prev;
+        prev = curr;
+        curr = next;
+    }
+
+    return prev;
+}
+```
+
+## Reverse a Linkedlist in a Range
+
+Statement: given the head of a singly linked list and two integers `left` and `right` where `left <= right`, reverse the nodes of the list from position `left` to position `right`, and return the reversed list.
+
+```java
+public ListNode reverseBetween(ListNode head, int m, int n) {
+
+        // Empty list
+        if (head == null) {
+            return null;
+        }
+
+        // Move the two pointers until they reach the proper starting point
+        // in the list.
+        ListNode cur = head, prev = null;
+        while (m > 1) {
+            prev = cur;
+            cur = cur.next;
+            m--;
+            n--;
+        }
+
+        // The two pointers that will fix the final connections.
+        ListNode con = prev, tail = cur;
+
+        // Iteratively reverse the nodes until n becomes 0.
+        ListNode third = null;
+        while (n > 0) {
+            third = cur.next;
+            cur.next = prev;
+            prev = cur;
+            cur = third;
+            n--;
+        }
+
+        // Adjust the final connections as explained in the algorithm
+        if (con != null) {
+            con.next = prev;
+        } else {
+            head = prev;
+        }
+
+        tail.next = cur;
+        return head;
+    }
+```
+
