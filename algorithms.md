@@ -148,3 +148,20 @@ public int leastGreater(int[] arr, int key) {
     return ans;
 }
 ```
+
+# Greatest Common Divisor: Euclidian Algorithm
+
+Statement: given two integers `a` and `b`, return the greatest common divisor of `a` and `b`.
+
+Note: *gcd(a, b, c) = gcd(a, gcd(b, c)) = gcd(gcd(a, b), c) = gcd(gcd(a, c), b).*
+
+```java
+public int gcd(int a, int b) {
+    if (b == 0) {
+        return a;
+    }
+
+    return gcd(b, a % b);
+}
+```
+
