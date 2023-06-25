@@ -52,7 +52,21 @@ Distributed databases are **relational databases** that serve scenarios with **m
 
 ## Lesson 2: Strong Consistency
 
-![pic](https://static001.geekbang.org/resource/image/27/af/27155b05c028b261yyc2d3c3469a3faf.jpg?wh=2700*2008)
+![pic](https://static001.geekbang.org/resource/image/27/af/27155b05c028b261yyc2d3c3469a3faf.jpg)
+
+> 1. 一致性模型林林总总，数量繁多，但我们总可以从状态和操作这两个视角来观察，进而梳理出其读写操作的不同策略。
+> 
+> 2. 从状态视角看，数据一致性只有两种状态，强一致或弱一致，而在实际系统中强一致是非常少见的，最终一致性是弱一致性的特殊形式；
+> 
+> 3. 从操作视角看，最终一致性可以被封装成多种一致性模型，甚至是最强的线性一致性。
+> 
+> 4. 分布式数据库主要应用了线性一致性或因果一致性。线性一致性必须要有全局时钟，全局时钟可能来自授时服务器或者特殊物理设备（如原子钟），全局时钟的实现方式会影响到集群的部署范围；因果一致性可以通过逻辑时钟实现，不依赖于硬件，不会限制集群的部署范围。
+> 
+> 今天介绍的几种一致性模型，用一致性强度来衡量的话：线性一致性强于因果一致性；而写后读一致性、单调读一致性、前缀一致性弱于前两者，但这三者之间无法比较强弱。还有一种常被提及的顺序一致性（Sequentially Consistent），其强度介于线性一致性与因果一致性之间，由于较少在分布式数据库中使用，所以并没有介绍。
+> 
+> 综上所述，我们提到的一致性模型强度排序如下：
+> 
+> 线性一致性 > 顺序一致性 > 因果一致性 > { 写后读一致性，单调一致性，前缀一致性 }
 
 ### CAP Theorem
 
@@ -146,7 +160,7 @@ Linearizability is built upon the sequence of events. Under linearizability, the
 
 The basis of causal consistency is partial ordering, that is, the order of some events can be **compared**. At least the events within one node can be ordered, relying on the node's local clock; if communication occurs between nodes, the two events involved in the communication can also be ordered, the receiver's event is always later than the caller's event.
 
-* Logic Clocks
+* Lamport Clocks
 
 > 借助逻辑时钟仍然可以建立全序关系，当然这个全序关系是不够精确的。因为如果两个事件并不相关，那么逻辑时钟给出的大小关系是没有意义的。
 
