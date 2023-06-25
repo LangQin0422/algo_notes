@@ -2,7 +2,7 @@
 
 ## Lesson 1: What are distributed systems?
 
-![pic](https://static001.geekbang.org/resource/image/8c/a4/8c0e6e7100efdfbf57412840a3fddda4.jpg?wh=2003*801)
+![pic](https://static001.geekbang.org/resource/image/8c/a4/8c0e6e7100efdfbf57412840a3fddda4.jpg)
 
 Two types of distributed systems: **OLTP** (online transaction processing) and **OLAP** (online analytical processing).
 
