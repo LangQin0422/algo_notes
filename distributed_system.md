@@ -2,6 +2,8 @@
 
 ## Lesson 1: What are distributed systems?
 
+![pic](https://static001.geekbang.org/resource/image/8c/a4/8c0e6e7100efdfbf57412840a3fddda4.jpg?wh=2003*801)
+
 Two types of distributed systems: **OLTP** (online transaction processing) and **OLAP** (online analytical processing).
 
 - **RPO**: recovery point objective; the maximum amount of data loss that is acceptable
@@ -48,6 +50,38 @@ Example: MyCat
 
 Distributed databases are **relational databases** that serve scenarios with **more writes than reads**, **low latency**, and **massive concurrent** OLTP (Online Transaction Processing). They possess the capability to **store massive amounts of data** and have **high reliability**.
 
-#### From the Inside Architecture
+## Lesson 2: Strong Consistency
+
+![pic](https://static001.geekbang.org/resource/image/27/af/27155b05c028b261yyc2d3c3469a3faf.jpg?wh=2700*2008)
+
+### CAP Theorem
+
+Any distributed data store can provide only two of the following three guarantees:
+
+- **Consistency**: all nodes see the same data at the same time
+
+- **Availability**: a guarantee that every request receives a response about whether it was successful or failed
+
+- **Partition Tolerance**: the system continues to operate despite arbitrary message loss or failure of part of the system
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/c/c6/CAP_Theorem_Venn_Diagram.png" height="400">
+
+### ACID
+
+- **Atomicity**: each statement in a transaction (to read, write, update or delete data) is treated as a single unit.
+
+- **Consistency**: ensures that transactions only make changes to tables in predefined, predictable ways.
+
+- **Isolation**: when multiple users are reading and writing from the same table all at once, isolation of their transactions ensures that the concurrent transactions don't interfere with or affect one another.
+
+- **Durability**: ensures that changes to your data made by successfully executed transactions will be saved, even in the event of system failure.
+
+### Data Consistency: State Consistency
+
+> State Consistency: the data is consistent at any given time
+
+
+
+> Operation Consistency: the consistency of data that external users can read through agreed-upon protocol operations
 
 
