@@ -264,7 +264,7 @@ public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
 
 Statement: given a linkedlist `head`, return the node where the cycle begins. If there is no cycle, return `null`.
 
-Idea: let `slow` and `fast` be the two pointers. When they meet, let `slow` be the head and move both `slow` by one step and `fast` by two step. Denote the distance before cycle as `a`, `slow` traveled within cycle as `b`, and the length of cycle as `c`. 
+Idea: let `slow` and `fast` be the two pointers. Let `slow` be the head and move both `slow` by one step and `fast` by two step. When they meet, denote the distance before cycle as `a`, `slow` traveled within cycle as `b`, and the length of cycle as `c`. 
 
 ![pic](https://leetcode.com/problems/linked-list-cycle-ii/Figures/142/142_cycle.drawio.png)
 
