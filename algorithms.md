@@ -305,3 +305,51 @@ public class Solution {
     }
 }
 ```
+
+# Prefix Sum
+## Subarray Sums Divisible by K
+
+Statement: given an array `nums` of integers, return the number of (contiguous, non-empty) subarrays that have a sum divisible by `k`.
+
+Idea: This problem can be treated as a variant of the ordinary prefix sum problems, as it utilizes **Prefix Modulo Sum**. 
+
+**Main idea**:
+
+1. If `prefixMod[i] == prefixMod[j]`, then `nums[i] + ... + nums[j]` is divisible by `k`.
+
+2. One may derive all subarray sum modulo from `nums[0] + ... + nums[i]` by subtracting `nums[0] + ... + nums[j]` from `nums[0] + ... + nums[i]` for `j < i`.
+
+**Goal**:
+
+1. Find all 0-index subarray sum modulo.
+
+2. Count the frequency of each subarray sum modulo.
+
+**Implementation**:
+
+1. Use `prefixMod` to track current subarray sum modulo by `prefixMod = (prefixMod + n % k + k) % k`.
+
+2. Use `modCount[k]` to track the frequency of each subarray sum modulo.
+
+**Caveat**:
+
+1. `prefixMod` may be negative, so we need to add `k` to it before taking modulo.
+
+2. `modCount` should be initialized as `modCount[0] = 1` as subarraies with 0 sum modulo must be divisible by `k`.
+
+```java
+public int subarraysDivByK(int[] nums, int k) {
+    int prefixMod = 0, result = 0;
+
+    int[] modCount = new int[k];
+    modCount[0] = 1;
+
+    for (int n : nums) {
+        prefixMod = (prefixMod + n % k + k) % k;
+        result += modCount[prefixMod];
+        modCount[prefixMod] += 1;
+    }
+
+    return result;
+}
+```
