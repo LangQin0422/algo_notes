@@ -257,3 +257,51 @@ public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
     }
 }
 ```
+
+# Cycle Detection in a Linkedlist
+
+## Where the cycle begins
+
+Statement: given a linkedlist `head`, return the node where the cycle begins. If there is no cycle, return `null`.
+
+Idea: let `slow` and `fast` be the two pointers. When they meet, let `slow` be the head and move both `slow` by one step and `fast` by two step. Denote the distance before cycle as `a`, `slow` traveled within cycle as `b`, and the length of cycle as `c`. 
+
+![pic](https://leetcode.com/problems/linked-list-cycle-ii/Figures/142/142_cycle.drawio.png)
+
+Then `fast` traveled `a + b + kc` (where `k` denotes the number of laps `fast` has traveled) and `slow` traveled `a + b`. Since `fast` traveled twice as `slow`, we have `a + b + kc = 2 * (a + b)`. Therefore, `a + b = kc`, i.e., `a = kc - b`. 
+
+This implies that if we set `slow` to the head and move `slow` by one step, `slow` will arrive at the entry of the cycle after `kc - b` steps. Now, let `fast` move by **one step**, then `fast` will be at the entry of the cycle after `kc - b = (k - 1)c + (c - b)` steps.
+
+As a result, after `slow` meets `fast`, if we move `slow` to the head and move both `slow` and `fast` by one step, they will meet at the beginning of the cycle.
+
+```java
+public class Solution {
+    public ListNode detectCycle(ListNode head) {
+        ListNode slow = head, fast = head;
+
+        // Move until slow meets fast
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+
+            if (slow == fast) {
+                break;
+            }
+        }
+
+        // Check if cycle exists
+        if (fast == null || fast.next == null) {
+            return null;
+        }
+
+        // Reset slow to head
+        slow = head;
+        while (slow != fast) {
+            fast = fast.next;
+            slow = slow.next;
+        }
+
+        return slow;
+    }
+}
+```
