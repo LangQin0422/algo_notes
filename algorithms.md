@@ -264,7 +264,7 @@ public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
 
 Statement: given a linkedlist `head`, return the node where the cycle begins. If there is no cycle, return `null`.
 
-Idea: let `slow` and `fast` be the two pointers. Let `slow` be the head and move both `slow` by one step and `fast` by two step. When they meet, denote the distance before cycle as `a`, `slow` traveled within cycle as `b`, and the length of cycle as `c`. 
+Idea: let `slow` and `fast` be the two pointers. When they meet, let `slow` be the head and move both `slow` by one step and `fast` by two step. Denote the distance before cycle as `a`, `slow` traveled within cycle as `b`, and the length of cycle as `c`. 
 
 ![pic](https://leetcode.com/problems/linked-list-cycle-ii/Figures/142/142_cycle.drawio.png)
 
@@ -307,6 +307,38 @@ public class Solution {
 ```
 
 # Prefix Sum
+
+## Range Addition
+
+Statement: you are given an integer `length` and an array `updates` where `updates[i] = [startIdx_i, endIdx_i, inc_i]`.
+
+You have an array `arr` of length `length` with all zeros, and you have some operation to apply on `arr`. In the ith operation, you should increment all the elements `arr[startIdx_i], arr[startIdx_i + 1], ..., arr[endIdx_i]` by `inc_i`.
+
+Return `arr` after applying all the updates.
+
+Idea: mark the range by two ends. For example, if `updates[i] = [1, 3, 2]`, then `arr[1]` and `arr[3 + 1]` should be incremented by `2`. Therefore, we can mark the range by `2` and `-2` at the two ends of the range.
+
+```java
+public int[] getModifiedArray(int length, int[][] updates) {
+    int[] arr = new int[length];
+
+    for (int[] update : updates) {
+        int start = update[0], end = update[1], inc = update[2];
+        
+        arr[start] = arr[start] + inc;
+        if (end < length - 1) {
+            arr[end + 1] = arr[end + 1] - inc;
+        }
+    }
+
+    for (int i = 1; i < length; i++) {
+        arr[i] += arr[i - 1];
+    }
+
+    return arr;
+}
+```
+
 ## Subarray Sums Divisible by K
 
 Statement: given an array `nums` of integers, return the number of (contiguous, non-empty) subarrays that have a sum divisible by `k`.
@@ -368,10 +400,15 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
 
 Solve with DP, consider the state and potential decision for each day. 
 
-There are two states for a single day: 1)hold the stock, 2) not hold the stock. And there are two decision we could do to reach each state:
-1. We hold stock at ith day, we may 1) we do not hold stock on (i - 1)th day and we buy stock on ith day. 2) we hold stock on (i - 1)th day and we at rest(not buy or sell) on ith day.
+There are two states for a single day: 1) hold the stock, 2) not hold the stock. And there are two decision we could do to reach each state:
 
-2. We do not hold stock at ith day, we may 1) we hold stock on (i - 1)th day and we sell stock on ith day. 2) we do not hold stock on (i - 1)th day and we at rest on ith day.
+1. We hold stock at ith day, we may 
+   1. we do not hold stock on (i - 1)th day and we buy stock on ith day. 
+   2. we hold stock on (i - 1)th day and we at rest(not buy or sell) on ith day.
+
+2. We do not hold stock at ith day, we may 
+   1. we hold stock on (i - 1)th day and we sell stock on ith day. 
+   2. we do not hold stock on (i - 1)th day and we at rest on ith day.
 
 **DP Table**
 
