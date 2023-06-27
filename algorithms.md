@@ -376,6 +376,7 @@ There are two states for a single day: 1)hold the stock, 2) not hold the stock. 
 **DP Table**
 
 In this case, our DP table will contaim 3-dimension: `dp[i][k][0 or 1]` i - day, k -number of transaction, state (0 represents not holdinhh stock, 1 represents holding stock). This DP table record the profit we have for current optimal decision.
+
 `dp[i][k][0] = max(dp[i-1][k][0], dp[i-1][k][1] + prices[i])`
                max( 今天选择 rest,        今天选择 sell       )
 
