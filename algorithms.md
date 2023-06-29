@@ -2,7 +2,7 @@
 
 1. Contains
 2. First/Last occurrence
-3. Least geater/Greatest lesser
+3. Least greater/Greatest lesser
 
 ## 1. Contains
 
