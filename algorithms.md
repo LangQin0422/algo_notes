@@ -386,7 +386,6 @@ public int subarraysDivByK(int[] nums, int k) {
 }
 ```
 
-
 # Buy & Sell Stock
 
 Statement: given an array `prices` where `prices[i]` is the price of a given stock on the `ith` day, return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.
@@ -439,3 +438,140 @@ dp[i][k][1] = Math.max(dp[i-1][k][1], dp[i-1][k-1][0] - prices[i])
 ```
 
 This DP structure can aplly to all buy & sell stock problem with small modification.
+
+# Backtracking
+
+Backtracking framework:
+
+```python
+result = []
+def backtrack(路径, 选择列表):
+    if 满足结束条件:
+        result.add(路径)
+        return
+    
+    for 选择 in 选择列表:
+        做选择
+        backtrack(路径, 选择列表)
+        撤销选择
+
+    # Or more specifically
+    for 选择 in 选择列表:
+        # 做选择
+        将该选择从选择列表移除
+        路径.add(选择)
+        backtrack(路径, 选择列表)
+        # 撤销选择
+        路径.remove(选择)
+        将该选择再加入选择列表
+```
+
+## Problems with backtracking
+
+| Link  | Note |
+|---|---|
+| [Leedcode 46](https://leetcode.com/problems/permutations/description/) | All the permutations |
+| [Leetcode 51](https://leetcode.com/problems/n-queens/description/) | N-Queens with notes in the following |
+| [Leetcode 2305](https://leetcode.com/problems/fair-distribution-of-cookies/description/) | Special end case at 0 values |
+|   |   |
+|   |   |
+
+### N-Queens
+
+Problem Statement: [Leetcode 51](https://leetcode.com/problems/n-queens/description/).
+
+**Method**:
+
+Use backtracking to enumerate every possibility of placing queens on the board. Problems encountered:
+
+1. How to track the board state?
+
+    Unlike other backtracking problems, we cannot use a boolean array to track the state of the board. Because we need to check whether the queen is under attack, we need to know the position of the queen. So we need to use a 2D array `char[][] board` to track the board state.
+
+2. How to check whether a position is valid?
+
+    We need to check whether there is a queen on the same row, same column, same diagonal line, or same anti-diagonal line. So we need to use 4 boolean arrays to track the state of each row, column, diagonal line, and anti-diagonal line. 
+
+    1. Row-collision has been handled by the backtracking framework as we process the board row by row.
+
+    2. Column-collision: `boolean[] usedCols`.
+
+    3. Diagonal-collision: `boolean[] usedDiagonals`. Note that in a grid, the diagonal line number can be computed by `row - col`. But `row - col` can be negative, so we need to add an offset to make sure the diagonal line number is non-negative. Thus, the diagonal line number is `row - col + n - 1` for coordinate at `(row, col)`.
+
+    4. Anti-diagonal-collision: `boolean[] usedAntiDiagonals`. Similarly, the antidiagnoal line number is `row + col`.
+
+**Implementation**:
+
+```java
+class Solution {
+    private List<List<String>> result;
+    private int n;
+
+    public List<List<String>> solveNQueens(int n) {
+        result = new LinkedList<>();
+        this.n = n;
+
+        char[][] board = new char[n][n];
+        boolean[] usedCols = new boolean[n];
+        // # of diagonal lines is 2 * n - 1
+        boolean[] usedDiag = new boolean[2 * n - 1];
+        boolean[] usedAntiDiag = new boolean[2 * n - 1];
+
+        for (char[] row : board) {
+            Arrays.fill(row, '.');
+        }
+
+        backtrack(board, usedCols, usedDiag, usedAntiDiag, 0);
+
+        return result;
+    }
+
+    private void backtrack(char[][] board, boolean[] usedCols, boolean[] usedDiag,
+                           boolean[] usedAntiDiag, int r) {
+        if (r == n) {
+            result.add(boardToList(board));
+            return;
+        }
+
+        for (int c = 0; c < n; c++) {
+            if (!isValid(usedCols, usedDiag, usedAntiDiag, r, c)) {
+                continue;
+            }
+
+            usedCols[c] = true;
+            usedDiag[getDiagNum(r, c)] = true;
+            usedAntiDiag[getAntiDiagNum(r, c)] = true;
+            board[r][c] = 'Q';
+            backtrack(board, usedCols, usedDiag, usedAntiDiag, r + 1);
+            board[r][c] = '.';
+            usedAntiDiag[getAntiDiagNum(r, c)] = false;
+            usedDiag[getDiagNum(r, c)] = false;
+            usedCols[c] = false;
+        }
+    }
+
+    private boolean isValid(boolean[] usedCols, boolean[]usedDiag, boolean[] usedAntiDiag,
+                            int r, int c) {
+        if (usedCols[c] || usedDiag[getDiagNum(r, c)] || usedAntiDiag[getAntiDiagNum(r, c)]) {
+            return false;
+        }
+        return true;
+    }
+
+    private int getDiagNum(int r, int c) {
+        return n + r - c - 1;
+    }
+
+    private int getAntiDiagNum(int r, int c) {
+        return r + c;
+    }
+
+    private List<String> boardToList(char[][] board) {
+        List<String> result = new ArrayList<>();
+        for (char[] row : board) {
+            result.add(new String(row));
+        }
+        return result;
+    }
+}
+```
