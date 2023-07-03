@@ -470,10 +470,10 @@ def backtrack(路径, 选择列表):
 
 | Link  | Note |
 |---|---|
-| [Leedcode 46](https://leetcode.com/problems/permutations/description/) | All the permutations |
-| [Leetcode 51](https://leetcode.com/problems/n-queens/description/) | N-Queens with notes in the following |
-| [Leetcode 2305](https://leetcode.com/problems/fair-distribution-of-cookies/description/) | Special end case at 0 values |
-|   |   |
+| [Leedcode 46](https://leetcode.com/problems/permutations/) | All the permutations |
+| [Leetcode 51](https://leetcode.com/problems/n-queens/) | N-Queens with notes in the following |
+| [Leetcode 52](https://leetcode.com/problems/n-queens-ii/) | N-Queens II |
+| [Leetcode 2305](https://leetcode.com/problems/fair-distribution-of-cookies/) | Special end case at 0 values |
 |   |   |
 
 ### N-Queens
