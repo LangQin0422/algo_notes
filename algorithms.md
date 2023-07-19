@@ -536,7 +536,7 @@ class Solution {
         for (int c = 0; c < n; c++) {
             if (!isValid(usedCols, usedDiag, usedAntiDiag, r, c)) {
                 continue;
-            }
+,             }
 
             usedCols[c] = true;
             usedDiag[getDiagNum(r, c)] = true;
@@ -572,6 +572,145 @@ class Solution {
             result.add(new String(row));
         }
         return result;
+    }
+}
+```
+
+## Permutations/Combinations/Subsets with BackTracking
+
+In general, there are three fundamental types of forms:
+
+1. **No duplicate** elements in the input array; **No duplicate** elements in the output list. (No-No Duplicate)
+
+2. **Duplicate** elements in the input array; **No duplicate** elements in the output list. (Yes-No Duplicate)
+
+3. **No Duplicate** elements in the input array; **Duplicate** elements in the output list. (No-Yes Duplicate)
+
+### No-No Duplicate
+
+* **[Combination/Subset]** Use a parameter `start` to track the next position to be considered.
+
+* **[Permutation]** Use a **boolean array** to track the state of each element in the input array.
+
+Core framework:
+
+```java
+/* 组合/子集问题回溯算法框架 */
+void backtrack(int[] nums, int start) {
+    // 回溯算法标准框架
+    for (int i = start; i < nums.length; i++) {
+        // 做选择
+        track.addLast(nums[i]);
+        // 注意参数
+        backtrack(nums, i + 1);
+        // 撤销选择
+        track.removeLast();
+    }
+}
+
+/* 排列问题回溯算法框架 */
+void backtrack(int[] nums) {
+    for (int i = 0; i < nums.length; i++) {
+        // 剪枝逻辑
+        if (used[i]) {
+            continue;
+        }
+        // 做选择
+        used[i] = true;
+        track.addLast(nums[i]);
+
+        backtrack(nums);
+        // 撤销选择
+        track.removeLast();
+        used[i] = false;
+    }
+}
+```
+
+### Yes-No Duplicate
+
+* **[Combinatino/Subset/Permutation/]** Sort the input array to skip the same elements with `nums[i] == nums[i - 1]`.
+
+* **[Permutation]** Maintain the relative order of duplicate elements with `nums[i] == nums[i - 1] && !used[i - 1]`.
+
+> 标准全排列算法之所以出现重复，是因为把*相同元素形成的排列序列视为不同的序列*，但实际上它们应该是相同的；而如果固定相同元素形成的序列顺序，当然就避免了重复。
+
+Core framework:
+
+```java
+Arrays.sort(nums);
+
+/* 组合/子集问题回溯算法框架 */
+void backtrack(int[] nums, int start) {
+    // 回溯算法标准框架
+    for (int i = start; i < nums.length; i++) {
+        // 剪枝逻辑，跳过值相同的相邻树枝
+        if (i > start && nums[i] == nums[i - 1]) {
+            continue;
+        }
+        // 做选择
+        track.addLast(nums[i]);
+        // 注意参数
+        backtrack(nums, i + 1);
+        // 撤销选择
+        track.removeLast();
+    }
+}
+
+
+Arrays.sort(nums);
+
+/* 排列问题回溯算法框架 */
+void backtrack(int[] nums) {
+    for (int i = 0; i < nums.length; i++) {
+        // 剪枝逻辑
+        if (used[i]) {
+            continue;
+        }
+        // 剪枝逻辑，固定相同的元素在排列中的相对位置
+        if (i > 0 && nums[i] == nums[i - 1] && !used[i - 1]) {
+            continue;
+        }
+        // 做选择
+        used[i] = true;
+        track.addLast(nums[i]);
+
+        backtrack(nums);
+        // 撤销选择
+        track.removeLast();
+        used[i] = false;
+    }
+}
+```
+
+### No-Yes Duplicate
+
+* **[Combination/Subset]** Set `start` of the next recursion the same as `i` to ensure duplication.
+
+Core framework:
+
+```java
+/* 组合/子集问题回溯算法框架 */
+void backtrack(int[] nums, int start) {
+    // 回溯算法标准框架
+    for (int i = start; i < nums.length; i++) {
+        // 做选择
+        track.addLast(nums[i]);
+        // 注意参数
+        backtrack(nums, i);
+        // 撤销选择
+        track.removeLast();
+    }
+}
+
+/* 排列问题回溯算法框架 */
+void backtrack(int[] nums) {
+    for (int i = 0; i < nums.length; i++) {
+        // 做选择
+        track.addLast(nums[i]);
+        backtrack(nums);
+        // 撤销选择
+        track.removeLast();
     }
 }
 ```
