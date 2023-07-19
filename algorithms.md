@@ -437,7 +437,7 @@ dp[i][k][0] = Math.max(dp[i-1][k][0], dp[i-1][k][1] + prices[i])
 dp[i][k][1] = Math.max(dp[i-1][k][1], dp[i-1][k-1][0] - prices[i])
 ```
 
-This DP structure can aplly to all buy & sell stock problem with small modification.
+This DP structure can be applied to all buy & sell stock problem with small modification.
 
 # Backtracking
 
@@ -474,7 +474,6 @@ def backtrack(路径, 选择列表):
 | [Leetcode 51](https://leetcode.com/problems/n-queens/) | N-Queens with notes in the following |
 | [Leetcode 52](https://leetcode.com/problems/n-queens-ii/) | N-Queens II |
 | [Leetcode 2305](https://leetcode.com/problems/fair-distribution-of-cookies/) | Special end case at 0 values |
-|   |   |
 
 ### N-Queens
 
