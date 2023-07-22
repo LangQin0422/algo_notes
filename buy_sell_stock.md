@@ -12,7 +12,7 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
 
 **Main Idea**:
 
-Solve with DP, consider the state and potential decision for each day. 
+Solve with DP, consider the state and potential decision for each day.
 
 There are two states for a single day: 1) hold the stock, 2) not hold the stock. And there are two decision we could do to reach each state:
 

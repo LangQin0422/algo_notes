@@ -343,7 +343,7 @@ public int[] getModifiedArray(int length, int[][] updates) {
 
 Statement: given an array `nums` of integers, return the number of (contiguous, non-empty) subarrays that have a sum divisible by `k`.
 
-Idea: This problem can be treated as a variant of the ordinary prefix sum problems, as it utilizes **Prefix Modulo Sum**. 
+Idea: This problem can be treated as a variant of the ordinary prefix sum problems, as it utilizes **Prefix Modulo Sum**.
 
 **Main idea**:
 

@@ -48,7 +48,7 @@ Use backtracking to enumerate every possibility of placing queens on the board. 
 
 2. How to check whether a position is valid?
 
-    We need to check whether there is a queen on the same row, same column, same diagonal line, or same anti-diagonal line. So we need to use 4 boolean arrays to track the state of each row, column, diagonal line, and anti-diagonal line. 
+    We need to check whether there is a queen on the same row, same column, same diagonal line, or same anti-diagonal line. So we need to use 4 boolean arrays to track the state of each row, column, diagonal line, and anti-diagonal line.
 
     1. Row-collision has been handled by the backtracking framework as we process the board row by row.
 
